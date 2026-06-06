@@ -1,0 +1,444 @@
+/* ============================================================
+   Reinaldo J. Ramirez Photography — editorial homepage
+   Shared foundation: tokens, type, plates, motion
+   ============================================================ */
+
+:root {
+  /* Brand */
+  --ink: #141414;
+  --paper: #F7F4EF;
+  --oxblood: #6B2737;
+
+  /* Derived neutrals */
+  --ink-80: rgba(20, 20, 20, 0.80);
+  --ink-55: rgba(20, 20, 20, 0.55);
+  --ink-30: rgba(20, 20, 20, 0.30);
+  --ink-12: rgba(20, 20, 20, 0.12);
+  --paper-dim: #ECE7DE;
+  --paper-90: rgba(247, 244, 239, 0.90);
+  --paper-60: rgba(247, 244, 239, 0.60);
+
+  /* Type */
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Rhythm */
+  --gutter: clamp(20px, 5vw, 90px);
+  --section-y: clamp(72px, 12vw, 200px);
+
+  /* Motion */
+  --ease-cine: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-dur: 1.15s;
+
+  /* Tweakables (overridden by app) */
+  --accent-strength: 1;
+  --grain-opacity: 0.05;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* film grain over the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Type primitives ---------- */
+.serif { font-family: var(--serif); }
+.display {
+  font-family: var(--serif);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.display-italic { font-style: italic; font-weight: 500; }
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ink-55);
+}
+.eyebrow--accent { color: color-mix(in srgb, var(--oxblood) calc(100% * var(--accent-strength)), var(--ink-55)); }
+
+.lede {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+  text-wrap: pretty;
+}
+
+.body-text { max-width: 60ch; color: var(--ink-80); }
+
+.rule {
+  height: 1px;
+  background: var(--ink-12);
+  border: 0;
+  width: 100%;
+}
+.hairline-accent {
+  width: 56px; height: 1px; border: 0;
+  background: var(--oxblood);
+  opacity: var(--accent-strength);
+}
+
+/* ---------- Photographic plates ---------- */
+/* A plate is a tastefully toned placeholder that reads as a darkroom print.
+   Swap real photography in by passing a `src` to <Plate>. */
+.plate {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ink);
+  isolation: isolate;
+}
+.plate__fill { position: absolute; inset: 0; }
+.plate__img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.04) contrast(1.02);
+}
+/* subtle editorial veil over real photography: vignette + faint grain,
+   no color cast so the photo reads true */
+.plate__veil {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(130% 100% at 50% 38%, rgba(0,0,0,0) 58%, rgba(0,0,0,0.16) 100%);
+}
+/* duotone gradient stand-ins, varied for editorial rhythm */
+.tone-ash    { background: linear-gradient(155deg, #3a3a3c 0%, #1c1c1e 55%, #0d0d0e 100%); }
+.tone-sepia  { background: linear-gradient(150deg, #6b5e4f 0%, #3c3329 55%, #211c16 100%); }
+.tone-oxbld  { background: linear-gradient(155deg, #5a2c33 0%, #361a20 58%, #1c0f12 100%); }
+.tone-bone   { background: linear-gradient(155deg, #d9d2c6 0%, #b3a99a 50%, #8a7f6f 100%); }
+.tone-slate  { background: linear-gradient(150deg, #4a525a 0%, #2a3036 55%, #161a1e 100%); }
+.tone-dusk   { background: linear-gradient(160deg, #5c4f57 0%, #342a31 55%, #181216 100%); }
+
+/* soft focal vignette + light bloom to feel photographic */
+.plate__fill::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(120% 90% at 32% 28%, rgba(255,255,255,0.16), rgba(255,255,255,0) 46%),
+    radial-gradient(140% 120% at 70% 100%, rgba(0,0,0,0.5), rgba(0,0,0,0) 60%);
+}
+.plate__fill::after {
+  content: "";
+  position: absolute; inset: 0;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* caption stamp sitting at the bottom-left of a plate */
+.plate__stamp {
+  position: absolute;
+  left: clamp(14px, 2vw, 26px);
+  bottom: clamp(12px, 2vw, 22px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--paper-90);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(13px, 1.2vw, 16px);
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+.plate__stamp .tick { width: 26px; height: 1px; background: var(--paper-60); flex-shrink: 0; }
+
+/* ---------- Reveal on scroll ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--reveal-dur) var(--ease-cine),
+              transform var(--reveal-dur) var(--ease-cine);
+  will-change: opacity, transform;
+}
+.reveal.in { opacity: 1; transform: none; }
+.reveal--rise { transform: translateY(54px); }
+.reveal--clip { clip-path: inset(0 0 100% 0); transition: clip-path 1.4s var(--ease-cine), opacity 1.2s var(--ease-cine); transform: none; }
+.reveal--clip.in { clip-path: inset(0 0 0 0); }
+.reveal[data-delay="1"] { transition-delay: 0.12s; }
+.reveal[data-delay="2"] { transition-delay: 0.24s; }
+.reveal[data-delay="3"] { transition-delay: 0.36s; }
+.reveal[data-delay="4"] { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+}
+
+/* Calm motion: neutralize parallax transforms */
+.motion-calm .plate__img,
+.motion-calm .plate__fill { transform: none !important; }
+.motion-calm .reveal--clip { transition-duration: 0.8s; }
+
+/* ---------- Buttons / links ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 18px 30px;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: var(--ink);
+  transition: background .6s var(--ease-cine), color .6s var(--ease-cine);
+}
+.btn--solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn--solid:hover { background: var(--oxblood); border-color: var(--oxblood); }
+.btn--ghost:hover { background: var(--ink); color: var(--paper); }
+.btn .arr { transition: transform .6s var(--ease-cine); }
+.btn:hover .arr { transform: translateX(6px); }
+
+.link-underline {
+  position: relative;
+  font-family: var(--sans);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding-bottom: 4px;
+}
+.link-underline::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px; background: currentColor;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .6s var(--ease-cine);
+}
+.link-underline:hover::after { transform: scaleX(1); }
+
+/* ---------- Layout helpers ---------- */
+.wrap { padding-inline: var(--gutter); }
+.maxw { max-width: 1500px; margin-inline: auto; }
+.section { padding-block: var(--section-y); }
+
+/* mark logos for trust strip */
+.featured-mark {
+  font-family: var(--serif);
+  font-size: clamp(15px, 1.6vw, 20px);
+  letter-spacing: 0.02em;
+  color: var(--ink-55);
+  white-space: nowrap;
+}
+.featured-mark .sm { font-family: var(--sans); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; }
+
+/* fine print */
+.fineprint { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-55); }
+
+/* ============================================================
+   Elevation — editorial marquee
+   ============================================================ */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--ink-12);
+  padding-block: clamp(16px, 2.2vw, 28px);
+  user-select: none;
+}
+.marquee--dark { border-color: rgba(247, 244, 239, 0.18); }
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(26px, 4vw, 60px);
+  white-space: nowrap;
+  animation: marquee-x 34s linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee__track { animation-play-state: paused; }
+@keyframes marquee-x { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
+.marquee__word {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(22px, 3vw, 46px);
+  letter-spacing: 0.005em;
+}
+.marquee__star {
+  font-style: normal;
+  font-size: 0.5em;
+  color: var(--oxblood);
+  opacity: var(--accent-strength);
+  transform: translateY(-0.25em);
+}
+
+/* ============================================================
+   Elevation — services triptych
+   ============================================================ */
+.svc { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(22px, 3vw, 52px); }
+.svc__item { display: flex; flex-direction: column; }
+.svc__img { width: 100%; aspect-ratio: 4 / 5; }
+.svc__num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(13px, 1.4vw, 16px);
+  color: var(--oxblood);
+  opacity: var(--accent-strength);
+  margin-top: 22px;
+}
+.svc__ttl { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 2.6vw, 36px); margin: 10px 0 0; line-height: 1.04; }
+.svc__desc { font-family: var(--sans); font-size: 15px; line-height: 1.6; margin: 16px 0 0; max-width: 34ch; }
+.svc__more { margin-top: 22px; }
+.svc__item .plate { transition: transform 1s var(--ease-cine); }
+.svc__item:hover .plate { transform: translateY(-6px); }
+
+/* ============================================================
+   Elevation — travel / on-location ledger
+   ============================================================ */
+.travel { border-top: 1px solid currentColor; }
+.travel__row {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(16px, 3vw, 40px);
+  padding-block: clamp(16px, 2.2vw, 30px);
+  border-bottom: 1px solid var(--ink-12);
+  position: relative;
+  transition: padding-left .6s var(--ease-cine);
+}
+.travel--dark .travel__row { border-bottom-color: rgba(247, 244, 239, 0.16); }
+.travel__row:hover { padding-left: clamp(8px, 1.4vw, 22px); }
+.travel__city { font-family: var(--serif); font-weight: 500; font-size: clamp(24px, 4vw, 56px); line-height: 1; letter-spacing: -0.01em; white-space: nowrap; flex: none; transition: color .5s var(--ease-cine); }
+.travel__row:hover .travel__city { color: var(--oxblood); }
+.travel__region { font-family: var(--sans); font-size: clamp(11px, 1.3vw, 13px); letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-55); }
+.travel--dark .travel__region { color: var(--paper-60); }
+.travel__when { margin-left: auto; font-family: var(--sans); font-size: clamp(11px, 1.3vw, 13px); letter-spacing: 0.2em; text-transform: uppercase; white-space: nowrap; }
+.travel__dot { width: 6px; height: 6px; border-radius: 50%; background: var(--oxblood); opacity: var(--accent-strength); flex: none; align-self: center; }
+
+/* ============================================================
+   Direction A — Cinematic, asymmetric bleed grid (8 plates)
+   ============================================================ */
+.galA {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(14px, 2.4vw, 38px);
+  row-gap: clamp(38px, 6vw, 110px);
+  align-items: start;
+}
+.galA .gi { position: relative; }
+.galA .g1 { grid-column: 1 / 7;  aspect-ratio: 4 / 5; }
+.galA .g2 { grid-column: 8 / 13; aspect-ratio: 4 / 5; margin-top: clamp(56px, 11vw, 180px); }
+.galA .g3 { grid-column: 2 / 12; aspect-ratio: 16 / 9; }
+.galA .g4 { grid-column: 1 / 5;  aspect-ratio: 4 / 5; margin-top: clamp(-36px, -3vw, 0px); }
+.galA .g5 { grid-column: 5 / 9;  aspect-ratio: 3 / 4; }
+.galA .g6 { grid-column: 9 / 13; aspect-ratio: 3 / 2; margin-top: clamp(40px, 8vw, 120px); }
+.galA .g7 { grid-column: 1 / 8;  aspect-ratio: 3 / 2; }
+.galA .g8 { grid-column: 8 / 13; aspect-ratio: 4 / 5; }
+
+/* full-bleed helpers (escape the page gutter) */
+.bleed-l { margin-left: calc(-1 * var(--gutter)); }
+.bleed-r { margin-right: calc(-1 * var(--gutter)); }
+
+/* ============================================================
+   Direction B — Editorial print, ledger grid w/ numbering (6 plates)
+   ============================================================ */
+.galB {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: clamp(18px, 3vw, 46px);
+  row-gap: clamp(30px, 4.5vw, 70px);
+  align-items: end;
+}
+.galB .c1 { grid-column: 1 / 5;  }
+.galB .c2 { grid-column: 5 / 9;  margin-bottom: clamp(28px, 5vw, 80px); }
+.galB .c3 { grid-column: 9 / 13; }
+.galB .c4 { grid-column: 1 / 7;  }
+.galB .c5 { grid-column: 7 / 13; margin-bottom: clamp(28px, 5vw, 80px); }
+.galB .c6 { grid-column: 4 / 10; }
+.galB .cap-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--oxblood);
+  opacity: var(--accent-strength);
+}
+.galB .cap-row {
+  display: flex; align-items: baseline; gap: 12px;
+  margin-top: 14px;
+}
+.galB .cap-ttl { font-family: var(--serif); font-size: 16px; }
+.galB .cap-meta { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-55); margin-left: auto; }
+
+/* ---------- Real weddings feature ---------- */
+.feature {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: center;
+  column-gap: clamp(24px, 4vw, 72px);
+  row-gap: 28px;
+}
+.feature .f-img { grid-column: 1 / 8; aspect-ratio: 3 / 2; }
+.feature .f-txt { grid-column: 8 / 13; }
+.feature.flip .f-img { grid-column: 6 / 13; order: 2; }
+.feature.flip .f-txt { grid-column: 1 / 6; order: 1; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 860px) {
+  .nav-desktop { display: none !important; }
+  .nav-burger { display: flex !important; }
+
+  .galA, .galB {
+    grid-template-columns: 1fr;
+    row-gap: clamp(20px, 6vw, 40px);
+  }
+  .galA .g1, .galA .g2, .galA .g3, .galA .g4, .galA .g5, .galA .g6, .galA .g7, .galA .g8,
+  .galB .c1, .galB .c2, .galB .c3, .galB .c4, .galB .c5, .galB .c6 {
+    grid-column: 1 / -1 !important;
+    margin: 0 !important;
+  }
+  .galA .g1 { aspect-ratio: 4 / 5; }
+  .galA .g3, .galA .g6, .galA .g7 { aspect-ratio: 3 / 2; }
+
+  .feature, .feature.flip { grid-template-columns: 1fr; }
+  .feature .f-img, .feature .f-txt,
+  .feature.flip .f-img, .feature.flip .f-txt {
+    grid-column: 1 / -1 !important;
+    order: initial !important;
+  }
+  .feature .f-img { aspect-ratio: 3 / 2; }
+
+  .inquiry-grid { grid-template-columns: 1fr !important; }
+
+  .svc { grid-template-columns: 1fr; gap: clamp(36px, 9vw, 56px); }
+  .svc__img { aspect-ratio: 3 / 2; }
+  .travel__city { font-size: clamp(28px, 8vw, 44px); }
+  .travel__when { width: 100%; margin-left: 0; }
+  .travel-intro { grid-column: 1 / -1 !important; margin-bottom: 8px; }
+  .travel-intro ~ div { grid-column: 1 / -1 !important; }
+
+  .bleed-l { margin-left: calc(-1 * var(--gutter)); }
+  .bleed-r { margin-right: calc(-1 * var(--gutter)); }
+}
+
