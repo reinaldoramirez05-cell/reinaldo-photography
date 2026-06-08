@@ -494,15 +494,16 @@
         </h2>
       </div>
       <p class="lede reveal" data-delay="1" style="font-size:clamp(18px,2vw,24px);max-width:48ch;margin-bottom:clamp(44px,6vw,72px);color:var(--paper-90)">
-        Tell us a little about the two of you and the day you're dreaming of. Reinaldo takes a limited number
-        of weddings each year — the earlier you reach out, the better.
+        Tell us a little about what you're planning — a wedding, a session, or something in between.
+        Reinaldo takes a limited number of bookings each season, with intro pricing for a few early
+        couples and families this year. The sooner you reach out, the better.
       </p>
 
       <div class="reveal" data-delay="2">
         <form id="inquiryForm" novalidate style="width:100%">
           <div class="inquiry-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4vw,48px)">
             <label style="display:block">
-              <span class="field-label">Your names</span>
+              <span class="field-label">Your name(s)</span>
               <input class="field-input" type="text" name="name" placeholder="Camila &amp; Mateo" />
               <span class="field-error" data-error="name"></span>
             </label>
@@ -512,17 +513,28 @@
               <span class="field-error" data-error="email"></span>
             </label>
             <label style="display:block">
-              <span class="field-label">Wedding date</span>
-              <input class="field-input" type="date" name="date" />
-              <span class="field-error" data-error="date"></span>
+              <span class="field-label">What you're planning</span>
+              <select class="field-input" name="service">
+                <option value="" disabled selected>Choose one…</option>
+                <option>Wedding</option>
+                <option>Engagement</option>
+                <option>Expecting (maternity)</option>
+                <option>Family session</option>
+                <option>Film / video</option>
+                <option>Not sure yet</option>
+              </select>
             </label>
             <label style="display:block">
-              <span class="field-label">Venue or city</span>
-              <input class="field-input" type="text" name="venue" placeholder="Austin, TX" />
+              <span class="field-label">Date or timeframe</span>
+              <input class="field-input" type="text" name="date" placeholder="Aug 2026, or a rough idea" />
             </label>
             <label style="display:block;grid-column:span 2">
-              <span class="field-label">The vibe you're after</span>
-              <input class="field-input" type="text" name="vibe" placeholder="Cinematic, intimate, golden hour…" />
+              <span class="field-label">Location</span>
+              <input class="field-input" type="text" name="venue" placeholder="Austin, TX — or where you'd love to shoot" />
+            </label>
+            <label style="display:block;grid-column:span 2">
+              <span class="field-label">Tell us a little more <span style="opacity:.6;text-transform:none;letter-spacing:0">(optional)</span></span>
+              <input class="field-input" type="text" name="vibe" placeholder="The vibe you're after, your story, anything…" />
             </label>
           </div>
           <div style="margin-top:clamp(34px,5vw,56px);display:flex;align-items:center;gap:28px;flex-wrap:wrap">
@@ -773,13 +785,14 @@
   }
 
   function buildMailto(d) {
-    var subject = "Wedding inquiry — " + (d.name || "New couple");
+    var subject = "New inquiry — " + (d.service || "Photography") + " — " + (d.name || "New client");
     var body =
-      "Names: " + (d.name || "") + "\n" +
+      "Name(s): " + (d.name || "") + "\n" +
       "Email: " + (d.email || "") + "\n" +
-      "Wedding date: " + (d.date || "") + "\n" +
-      "Venue or city: " + (d.venue || "") + "\n" +
-      "The vibe: " + (d.vibe || "") + "\n";
+      "Planning: " + (d.service || "") + "\n" +
+      "Date / timeframe: " + (d.date || "") + "\n" +
+      "Location: " + (d.venue || "") + "\n" +
+      "More: " + (d.vibe || "") + "\n";
     return "mailto:" + INQUIRY_EMAIL +
       "?subject=" + encodeURIComponent(subject) +
       "&body=" + encodeURIComponent(body);
@@ -791,6 +804,7 @@
     var d = {
       name: (data.get("name") || "").trim(),
       email: (data.get("email") || "").trim(),
+      service: (data.get("service") || "").trim(),
       date: (data.get("date") || "").trim(),
       venue: (data.get("venue") || "").trim(),
       vibe: (data.get("vibe") || "").trim()
@@ -798,7 +812,6 @@
     var ok = true;
     if (!d.name) { setError("name", "Please share your name"); ok = false; } else setError("name", "");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) { setError("email", "A valid email, please"); ok = false; } else setError("email", "");
-    if (!d.date) { setError("date", "When is the day?"); ok = false; } else setError("date", "");
     if (!ok) return;
 
     if (FORM_ENDPOINT) {
