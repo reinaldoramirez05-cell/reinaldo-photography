@@ -15,6 +15,22 @@
     .nav-sheet { display: none; }
     @media (max-width: 860px) { .nav-sheet { display: block; } }
   </style>
+
+  <!-- Video SEO: VideoObject structured data for the hero film -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "Editorial Wedding Film — Austin & the Texas Hill Country",
+    "description": "A cinematic short film by Reinaldo J. Ramirez — a couple dances beneath a Hill Country pergola, prepares for the day, and walks among the oaks. Editorial wedding videography in Austin, Texas.",
+    "thumbnailUrl": "https://reinaldoramirez05-cell.github.io/reinaldo-photography/video/hero-poster.jpg",
+    "uploadDate": "2026-06-07",
+    "contentUrl": "https://reinaldoramirez05-cell.github.io/reinaldo-photography/video/austin-wedding-videography-reinaldo-ramirez.mp4",
+    "duration": "PT14S",
+    "creator": { "@type": "Person", "name": "Reinaldo J. Ramirez" },
+    "publisher": { "@type": "Organization", "name": "Reinaldo J. Ramirez Photography" }
+  }
+  </script>
 </head>
 <body>
 <div id="top">
@@ -54,10 +70,15 @@
   <!-- ============ HERO ============ -->
   <section class="hero" style="position:relative;color:var(--paper)">
     <figure class="plate" data-parallax style="position:absolute;inset:0;margin:0">
-      <img class="plate__img" src="photos/hero.jpg" alt="A bride and groom dance joyfully down the aisle at an all-white outdoor wedding" />
+      <video id="heroVideo" class="plate__img" muted loop playsinline preload="auto"
+             poster="video/hero-poster.jpg"
+             aria-label="Cinematic wedding film: a couple dances beneath a Texas Hill Country pergola, then walks among the oaks">
+        <source src="video/austin-wedding-videography-reinaldo-ramirez.mp4" type="video/mp4" />
+        <img class="plate__img" src="video/hero-poster.jpg" alt="A bride and groom dance beneath a stone pergola at a Texas Hill Country wedding" />
+      </video>
       <div class="plate__veil" aria-hidden="true"></div>
       <div class="hero__scrim" aria-hidden="true"></div>
-      <figcaption class="plate__stamp"><span class="tick"></span>The Recessional</figcaption>
+      <figcaption class="plate__stamp"><span class="tick"></span>The Film</figcaption>
     </figure>
 
     <div class="wrap maxw hero__inner">
@@ -501,6 +522,28 @@
 <script>
 (function () {
   "use strict";
+
+  /* ---- Hero film: autoplay only when motion is welcome and data is plentiful ---- */
+  (function heroFilm() {
+    var v = document.getElementById("heroVideo");
+    if (!v) return;
+    var prefersReduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var conn = navigator.connection || {};
+    var saveData = conn.saveData === true;
+    var slowNet = /2g/.test(conn.effectiveType || "");
+    if (prefersReduce || saveData || slowNet) return; // poster frame stays in place
+    var go = v.play();
+    if (go && go.catch) go.catch(function () { /* blocked: poster remains */ });
+    // Pause while the hero is off-screen to save battery/CPU
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function(){}); }
+          else { v.pause(); }
+        });
+      }, { threshold: 0.05 }).observe(v);
+    }
+  })();
 
   /* ---- Reveal on scroll ---- */
   function revealTick() {
