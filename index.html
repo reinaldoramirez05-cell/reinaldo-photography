@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="css/site.css" />
   <style>
     .nav-sheet { display: none; }
-    @media (max-width: 860px) { .nav-sheet { display: block; } }
+    @media (max-width: 980px) { .nav-sheet { display: block; } }
   </style>
 
   <!-- Video SEO: VideoObject structured data for the hero film -->
@@ -49,6 +49,7 @@
         <a href="#work" class="link-underline">Portfolio</a>
         <a href="#weddings" class="link-underline">Real Weddings</a>
         <a href="#expecting" class="link-underline">Expecting</a>
+        <a href="#families" class="link-underline">Families</a>
         <a href="#about" class="link-underline">About</a>
         <button class="link-underline nav-inquire" data-inquire type="button">Inquire</button>
       </nav>
@@ -63,6 +64,7 @@
         <a href="#work" data-sheet-link class="serif">Portfolio</a>
         <a href="#weddings" data-sheet-link class="serif">Real Weddings</a>
         <a href="#expecting" data-sheet-link class="serif">Expecting</a>
+        <a href="#families" data-sheet-link class="serif">Families</a>
         <a href="#about" data-sheet-link class="serif">About</a>
         <button type="button" data-inquire data-sheet-link class="serif nav-sheet__inquire">Inquire</button>
       </div>
@@ -314,6 +316,48 @@
     </div>
   </section>
 
+  <!-- ============ FAMILIES ============ -->
+  <section id="families" class="section wrap maxw" style="padding-top:clamp(40px,7vw,90px)">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(40px,6vw,80px);flex-wrap:wrap;gap:18px">
+      <div>
+        <span class="eyebrow eyebrow--accent reveal" style="display:block;margin-bottom:18px">Family Sessions</span>
+        <h2 class="display reveal reveal--rise" data-delay="1" style="font-size:clamp(30px,5vw,72px);margin:0">
+          The little<br /><span class="display-italic" style="color:var(--oxblood)">years</span>
+        </h2>
+      </div>
+      <p class="reveal" data-delay="1" style="max-width:32ch;font-family:var(--sans);font-size:15px;line-height:1.65;color:var(--ink-80)">
+        The seasons that pass too quickly — first birthdays, small hands, the people who turn a house into home. Kept exactly as they were.
+      </p>
+    </div>
+
+    <div class="galA">
+      <figure class="plate gi g1 reveal reveal--clip bleed-l" data-parallax style="aspect-ratio:1.157">
+        <img class="plate__img" src="photos/f1.jpg" alt="A young family of three laughing together on a wooden rail beside a Texas pond" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>01 — The whole crew</figcaption>
+      </figure>
+      <figure class="plate gi g2 reveal reveal--clip" data-delay="1" data-parallax style="aspect-ratio:0.783">
+        <img class="plate__img" src="photos/f5.jpg" alt="A laughing toddler in a band t-shirt during a candid family session" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>02 — Pure joy</figcaption>
+      </figure>
+      <figure class="plate gi g3 reveal reveal--clip" data-parallax style="aspect-ratio:2.182">
+        <img class="plate__img" src="photos/f3.jpg" alt="A toddler holding a pine cone in the woods in golden afternoon light" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>03 — Small hands</figcaption>
+      </figure>
+      <figure class="plate gi g4 reveal reveal--clip" data-delay="1" data-parallax style="aspect-ratio:1.091">
+        <img class="plate__img" src="photos/f2.jpg" alt="A mother in cream lace smiling at her baby in a christening gown" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>04 — Just the two</figcaption>
+      </figure>
+      <figure class="plate gi g5 reveal reveal--clip" data-parallax style="aspect-ratio:1.247">
+        <img class="plate__img" src="photos/f6.jpg" alt="A toddler exploring a sunlit pine forest during a family photo session in Austin" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>05 — Into the pines</figcaption>
+      </figure>
+      <figure class="plate gi g6 reveal reveal--clip bleed-r" data-delay="1" data-parallax style="aspect-ratio:1.161">
+        <img class="plate__img" src="photos/f4.jpg" alt="A family of four dressed in cream and blue for a portrait among greenery" loading="lazy" /><div class="plate__veil"></div>
+        <figcaption class="plate__stamp"><span class="tick"></span>06 — All dressed up</figcaption>
+      </figure>
+    </div>
+  </section>
+
   <!-- ============ ABOUT TEASER ============ -->
   <section id="about" style="background:var(--paper);color:var(--ink)">
     <div class="wrap maxw section" style="display:grid;grid-template-columns:repeat(12,1fr);column-gap:clamp(28px,5vw,80px);row-gap:40px;align-items:center">
@@ -539,7 +583,7 @@
   #siteNav.on-dark .nav-desktop a,
   #siteNav.on-dark .nav-desktop .nav-inquire { color:var(--paper); }
 
-  .nav-desktop { display:flex; align-items:center; gap:clamp(20px,3vw,46px); color:var(--ink); transition:color .7s var(--ease-cine); }
+  .nav-desktop { display:flex; align-items:center; gap:clamp(16px,2vw,32px); color:var(--ink); transition:color .7s var(--ease-cine); }
   .nav-desktop a { color:var(--ink); font-family:"Playfair Display"; }
   .nav-inquire { color:var(--ink); background:transparent; border:0; padding:0 0 4px; font-family:var(--sans); font-size:12px; letter-spacing:0.2em; text-transform:uppercase; }
 
@@ -552,7 +596,7 @@
   .nav-sheet__inner { display:flex; flex-direction:column; gap:22px; padding-block:28px; }
   .nav-sheet__inner a, .nav-sheet__inner button { font-size:26px; color:var(--ink); background:transparent; border:0; text-align:left; padding:0; }
   .nav-sheet__inquire { color:var(--oxblood) !important; }
-  @media (max-width:860px){ .nav-desktop{ display:none; } .nav-burger{ display:flex; } }
+  @media (max-width:980px){ .nav-desktop{ display:none; } .nav-burger{ display:flex; } }
 
   .hero { height:100svh; min-height:620px; }
   .hero__scrim { position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.12) 32%, rgba(0,0,0,0.15) 60%, rgba(0,0,0,0.6) 100%); }
