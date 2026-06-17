@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://reinaldoramirez05-cell.github.io/reinaldo-photography/sitemap.xml
