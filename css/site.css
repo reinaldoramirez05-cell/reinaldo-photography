@@ -219,6 +219,8 @@ button { font-family: inherit; cursor: pointer; }
 }
 .btn--solid { background: var(--ink); color: var(--paper); border-color: var(--ink); }
 .btn--solid:hover { background: var(--oxblood); border-color: var(--oxblood); }
+.btn--paper { background: var(--paper); color: var(--oxblood); border-color: var(--paper); }
+.btn--paper:hover { background: transparent; color: var(--paper); border-color: var(--paper); }
 .btn--ghost:hover { background: var(--ink); color: var(--paper); }
 .btn .arr { transition: transform .6s var(--ease-cine); }
 .btn:hover .arr { transform: translateX(6px); }
